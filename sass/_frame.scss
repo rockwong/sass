@@ -1,0 +1,32 @@
+@mixin frame($name,$xNum,$yNum,$keyNum:$xNum * $yNum) {
+  .#{$name}{
+    background-size:$xNum*100% $yNum*100%;
+    animation-timing-function:step-end;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name:$name;
+  }
+  @keyframes #{$name} {
+    @for $y from 0 through $yNum {
+      @for $x from 0 through $xNum - 1 {
+
+        @if $keyNum>($y*($xNum)+$x) {
+          #{(100/($keyNum - 1))*($xNum*$y+$x)}% {
+            background-position: 1/if($xNum - 1==0, 1, $xNum - 1)*$x*100% 1/($yNum - 1)*$y*100%;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+
+@include frame(frame,7,3);
+
+.frame{
+  width: 200px;
+  height: 300px;
+  background-image: url(../images/inDown.jpg);
+  animation-duration: 4s;
+}
